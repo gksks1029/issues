@@ -51,13 +51,11 @@ int main() {
         m[i] = rand_m * 5.0f - 2.5f;
     }
 
-    unsigned int i = 0;
     size_t vl = __riscv_vsetvl_e32m1(8);
-    vfloat32m1_t res_vec;
-    for(; i < 4096; i += 8){
+    for(unsigned int i = 0; i < 4096; i += 8){
         vfloat32m1_t out_vec = __riscv_vle32_v_f32m1(&x[i], vl);
         vfloat32m1_t x_vec = __riscv_vle32_v_f32m1(&m[i], vl);
-        res_vec = __riscv_vfmul_vv_f32m1(out_vec, x_vec, vl);
+        vfloat32m1_t res_vec = __riscv_vfmul_vv_f32m1(out_vec, x_vec, vl);
     if(i==0){
         clock_gettime(CLOCK_MONOTONIC, &start);
         __riscv_vse32_v_f32m1(&y[i], res_vec, vl); 
